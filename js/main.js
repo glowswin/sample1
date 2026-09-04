@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initPaymentTabs();
   initCalculator();
-  initBrochureModal();
   initConsultationForm();
   initFAQ();
   initBackToTop();
@@ -110,113 +109,7 @@ function initCalculator() {
   updateCalculation();
 }
 
-/* 4. Brochure Modal Gallery */
-const brochureImages = [
-  {
-    title: "1. 해외 간편결제 서비스 제안 (표지)",
-    desc: "업계 최저 수수료 / 무료 마케팅 홍보 / 결제 장비 무료 3대 혜택 및 KOSDAQ 글로벌텍스프리(주)",
-    src: "images/KakaoTalk_20260904_144604476.jpg"
-  },
-  {
-    title: "2. 무료 마케팅 홍보 지원",
-    desc: "쇼핑플러스, GTF 매거진(연 6만부), 알리페이 인앱 마케팅, 위챗페이 환율 우대 쿠폰(월 5만 스캔)",
-    src: "images/KakaoTalk_20260904_144604476_01.jpg"
-  },
-  {
-    title: "3. 결제 수단과 장비·프로그램 무상 지원",
-    desc: "STFM 5단계 QR 스캔 결제, 중국 현지 사전 예약금(MPM) 결제, 코세스/다우데이터 단말기 & 2D 스캐너",
-    src: "images/KakaoTalk_20260904_144604476_02.jpg"
-  },
-  {
-    title: "4. GTF PG 9대 결제수단 및 기업 정보",
-    desc: "위챗페이, 알리페이, 페이페이, 알리페이HK, 지캐시, 트루머니, 터치앤고, 이지링크, 모모페이 지원 안내",
-    src: "images/KakaoTalk_20260904_144604476_03.jpg"
-  }
-];
-
-let currentBrochureIndex = 0;
-
-function initBrochureModal() {
-  const openBtns = document.querySelectorAll('.open-brochure-btn');
-  const modal = document.getElementById('brochure-modal');
-  const closeBtn = document.getElementById('brochure-modal-close');
-  const imgEl = document.getElementById('brochure-modal-img');
-  const titleEl = document.getElementById('brochure-modal-title');
-  const descEl = document.getElementById('brochure-modal-desc');
-  const prevBtn = document.getElementById('brochure-prev');
-  const nextBtn = document.getElementById('brochure-next');
-  const pageBtns = document.querySelectorAll('.brochure-tab-btn');
-
-  if (!modal) return;
-
-  function renderPage(idx) {
-    currentBrochureIndex = idx;
-    const item = brochureImages[idx];
-    if (imgEl) imgEl.src = item.src;
-    if (titleEl) titleEl.textContent = item.title;
-    if (descEl) descEl.textContent = item.desc;
-
-    pageBtns.forEach((b, i) => {
-      if (i === idx) {
-        b.classList.add('bg-orange-600', 'text-white');
-        b.classList.remove('bg-slate-100', 'text-slate-700');
-      } else {
-        b.classList.remove('bg-orange-600', 'text-white');
-        b.classList.add('bg-slate-100', 'text-slate-700');
-      }
-    });
-  }
-
-  openBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const pageIdx = parseInt(btn.getAttribute('data-page') || '0', 10);
-      renderPage(pageIdx);
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      document.body.classList.add('overflow-hidden');
-    });
-  });
-
-  function closeModal() {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.classList.remove('overflow-hidden');
-  }
-
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      const newIdx = (currentBrochureIndex - 1 + brochureImages.length) % brochureImages.length;
-      renderPage(newIdx);
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      const newIdx = (currentBrochureIndex + 1) % brochureImages.length;
-      renderPage(newIdx);
-    });
-  }
-
-  pageBtns.forEach((b, i) => {
-    b.addEventListener('click', () => renderPage(i));
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (!modal.classList.contains('hidden')) {
-      if (e.key === 'Escape') closeModal();
-      if (e.key === 'ArrowLeft' && prevBtn) prevBtn.click();
-      if (e.key === 'ArrowRight' && nextBtn) nextBtn.click();
-    }
-  });
-}
-
-/* 5. Consultation Form Validation & Feedback */
+/* 4. Consultation Form Validation & Feedback */
 function initConsultationForm() {
   const form = document.getElementById('consult-form');
   const successModal = document.getElementById('consult-success-modal');

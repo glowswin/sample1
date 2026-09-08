@@ -78,10 +78,10 @@ function initCalculator() {
 
   if (!amountSlider) return;
 
-  // Assume standard general PG overseas fee: 3.8%
-  // GTF Lowest Rate: 2.2% (approx 1.6% savings per transaction + free hardware + free marketing)
-  const COMP_RATE = 0.038;
-  const GTF_RATE = 0.022;
+  // Assume standard competitor fee: 1.5%
+  // GTF Lowest Rate: 0.9%
+  const COMP_RATE = 0.015;
+  const GTF_RATE = 0.009;
 
   function updateCalculation() {
     const amountInTenThousand = parseInt(amountSlider.value, 10); // in 만원 (10,000 KRW)

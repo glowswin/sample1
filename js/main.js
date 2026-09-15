@@ -110,7 +110,7 @@ function initCalculator() {
 }
 
 // 구글 스프레드시트 웹앱 배포 URL (발급받은 URL을 여기에 입력하면 즉시 시트 기록 및 메일 발송 연동)
-const GOOGLE_SCRIPT_URL = '';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzz-Sq5M-NM-zOxUUTkCfli1kQ6KPhCtDdxQ_gkmSsMmh2SE8UGMxodKM67ECkF4fU9/exec';
 
 /* 4. Consultation Form Validation & Feedback */
 function initConsultationForm() {

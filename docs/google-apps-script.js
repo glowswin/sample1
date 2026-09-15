@@ -57,10 +57,9 @@ function doPost(e) {
     sheet.appendRow([now, clinicName, contactName, phone, specialty, message]);
 
     // 4. 이메일 자동 발송
-    // ※ 기본값: 현재 구글 시트를 생성한 구글 계정으로 발송
-    // 네이버 등 다른 메일로 받으시려면 아래처럼 직접 입력하실 수 있습니다:
-    // var recipientEmail = "glowswin@naver.com";
-    var recipientEmail = Session.getActiveUser().getEmail();
+    // 네이버 등 지정 메일로 발송 (필요 시 수정 가능)
+    var recipientEmail = "glowswin@naver.com";
+    // var recipientEmail = Session.getActiveUser().getEmail();
 
     var emailSubject = '[GTF 신규 가맹상담] ' + clinicName + ' (' + contactName + ' 님)';
     var emailBody = 

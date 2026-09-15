@@ -109,6 +109,9 @@ function initCalculator() {
   updateCalculation();
 }
 
+// 구글 스프레드시트 웹앱 배포 URL (발급받은 URL을 여기에 입력하면 즉시 시트 기록 및 메일 발송 연동)
+const GOOGLE_SCRIPT_URL = '';
+
 /* 4. Consultation Form Validation & Feedback */
 function initConsultationForm() {
   const form = document.getElementById('consult-form');
@@ -117,8 +120,20 @@ function initConsultationForm() {
 
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // 1. 봇 트랩(허니팟) 검사: 봇이 숨겨진 필드를 채웠을 경우 조용히 차단
+    const gotcha = form.elements['_gotcha']?.value;
+    if (gotcha) {
+      console.warn('Bot detected and blocked.');
+      form.reset();
+      if (successModal) {
+        successModal.classList.remove('hidden');
+        successModal.classList.add('flex');
+      }
+      return;
+    }
 
     const clinicName = form.elements['clinic_name']?.value.trim();
     const contactName = form.elements['contact_name']?.value.trim();
@@ -131,21 +146,65 @@ function initConsultationForm() {
       return;
     }
 
+    // 2. 전화번호 정규식 검증 (한국 연락처 체계: 휴대폰, 유선전화 모두 지원)
+    const cleanPhone = phone.replace(/[\s-]/g, '');
+    const phoneRegex = /^(01[016789]\d{7,8}|02\d{7,8}|0[3-9]\d{7,8})$/;
+    if (!phoneRegex.test(cleanPhone)) {
+      alert('올바른 연락처 형식(예: 010-1234-5678 또는 02-123-4567)을 입력해 주세요.');
+      form.elements['phone']?.focus();
+      return;
+    }
+
     const inquiryData = {
-      clinicName,
-      contactName,
-      phone,
-      specialty,
-      message,
+      clinic_name: clinicName,
+      contact_name: contactName,
+      phone: phone,
+      specialty: specialty,
+      message: message,
+      _gotcha: gotcha || '',
       createdAt: new Date().toISOString()
     };
 
-    // Save to localStorage
-    const inquiries = JSON.parse(localStorage.getItem('gtf_inquiries') || '[]');
-    inquiries.push(inquiryData);
-    localStorage.setItem('gtf_inquiries', JSON.stringify(inquiries));
+    // 로컬 백업 저장 (네트워크 오류 대비)
+    try {
+      const inquiries = JSON.parse(localStorage.getItem('gtf_inquiries') || '[]');
+      inquiries.push(inquiryData);
+      localStorage.setItem('gtf_inquiries', JSON.stringify(inquiries));
+    } catch (err) {
+      console.warn('Local storage backup failed:', err);
+    }
 
+    // 버튼 로딩 상태 표시 (중복 클릭 방지)
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> 안전하게 접수 처리 중...';
+    }
+
+    // 3. 구글 스프레드시트 웹앱으로 전송 (이메일 자동 발송 + 시트 자동 기록)
+    if (GOOGLE_SCRIPT_URL) {
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors', // CORS 제한 없는 구글 웹앱 표준 호출 방식
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(inquiryData)
+        });
+      } catch (err) {
+        console.error('Google Sheet submission error:', err);
+      }
+    }
+
+    // 폼 초기화 및 완료 모달 표시
     form.reset();
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+    }
 
     if (successModal) {
       successModal.classList.remove('hidden');

@@ -1152,6 +1152,11 @@
           
           <form id="consult-form" class="space-y-6">
             
+            <!-- BOT TRAP HONEYPOT (자동화 스팸 봇 차단용 가짜 필드 - 사용자에게 표시되지 않음) -->
+            <div style="display:none;" aria-hidden="true">
+              <label for="_gotcha">스팸 방지 필드입니다. 비워두세요.</label>
+              <input type="text" name="_gotcha" id="_gotcha" tabindex="-1" autocomplete="off">
+            </div>
             <div class="grid sm:grid-cols-2 gap-6">
               <div>
                 <label for="clinic_name" class="block text-xs font-bold text-slate-300 mb-2">

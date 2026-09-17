@@ -17,23 +17,35 @@ function initMobileMenu() {
   const menuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   const closeBtn = document.getElementById('mobile-menu-close');
+  const backdrop = document.getElementById('mobile-menu-backdrop');
   const links = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
 
   if (!menuBtn || !mobileMenu) return;
 
-  function toggleMenu() {
-    mobileMenu.classList.toggle('hidden');
-    document.body.classList.toggle('overflow-hidden');
+  function openMenu() {
+    mobileMenu.classList.remove('hidden');
+    mobileMenu.classList.add('flex');
+    document.body.classList.add('overflow-hidden');
   }
 
-  menuBtn.addEventListener('click', toggleMenu);
-  if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
+  function closeMenu() {
+    mobileMenu.classList.add('hidden');
+    mobileMenu.classList.remove('flex');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  menuBtn.addEventListener('click', openMenu);
+  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+  if (backdrop) backdrop.addEventListener('click', closeMenu);
 
   links.forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-    });
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+      closeMenu();
+    }
   });
 }
 

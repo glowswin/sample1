@@ -97,36 +97,41 @@
 
     </div>
 
-    <!-- MOBILE MENU DRAWER -->
-    <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm lg:hidden">
-      <div class="fixed right-0 top-0 bottom-0 w-4/5 max-w-sm bg-white p-6 shadow-2xl flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between pb-5 border-b border-slate-100">
-            <img src="images/logo.png" alt="GLOBAL TAX FREE" class="h-8 w-auto object-contain">
-            <button id="mobile-menu-close" class="p-2 text-slate-500 hover:text-slate-900" aria-label="메뉴 닫기">
-              <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-          </div>
-          <div class="flex flex-col gap-4 mt-6 text-base font-semibold text-slate-700">
-            <a href="#benefits" class="py-2 border-b border-slate-50 hover:text-orange-600">핵심 강점</a>
-            <a href="#payment-methods" class="py-2 border-b border-slate-50 hover:text-orange-600">9대 결제수단</a>
-            <a href="#marketing" class="py-2 border-b border-slate-50 hover:text-orange-600">무료 마케팅 지원</a>
-            <a href="#hardware-sw" class="py-2 border-b border-slate-50 hover:text-orange-600">STFM & 장비 무상지원</a>
-            <a href="#calculator" class="py-2 border-b border-slate-50 hover:text-orange-600">수수료 계산기</a>
-            <a href="#process" class="py-2 border-b border-slate-50 hover:text-orange-600">도입 절차 & FAQ</a>
-          </div>
+  </header>
+
+  <!-- MOBILE MENU DRAWER (Direct child of body to prevent header backdrop-blur containing block bug) -->
+  <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm lg:hidden justify-end" role="dialog" aria-modal="true">
+    <!-- Backdrop Dismiss Click Area -->
+    <div id="mobile-menu-backdrop" class="absolute inset-0"></div>
+
+    <!-- Drawer Content -->
+    <div class="relative z-10 w-4/5 max-w-sm h-full h-[100dvh] bg-white p-6 shadow-2xl flex flex-col justify-between overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between pb-5 border-b border-slate-100">
+          <img src="images/logo.png" alt="GLOBAL TAX FREE" class="h-8 w-auto object-contain">
+          <button id="mobile-menu-close" class="p-2 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors" aria-label="메뉴 닫기">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
         </div>
-        <div class="pt-6 border-t border-slate-100 flex flex-col gap-3">
-          <a href="tel:02-518-0837" class="w-full text-center py-3 bg-slate-100 text-slate-800 font-bold rounded-lg flex items-center justify-center gap-2">
-            <i class="fa-solid fa-phone text-orange-600"></i> 02-518-0837 전화 문의
-          </a>
-          <a href="#inquiry" class="w-full text-center py-3 bg-orange-600 text-white font-bold rounded-lg shadow-md">
-            가맹 상담 신청하기
-          </a>
+        <div class="flex flex-col gap-2 mt-6 text-base font-semibold text-slate-700">
+          <a href="#benefits" class="py-3 px-3 rounded-xl hover:bg-orange-50 hover:text-orange-600 transition-colors">핵심 강점</a>
+          <a href="#payment-methods" class="py-3 px-3 rounded-xl hover:bg-orange-50 hover:text-orange-600 transition-colors">9대 결제수단</a>
+          <a href="#marketing" class="py-3 px-3 rounded-xl hover:bg-orange-50 hover:text-orange-600 transition-colors">무료 마케팅 지원</a>
+          <a href="#hardware-sw" class="py-3 px-3 rounded-xl hover:bg-orange-50 hover:text-orange-600 transition-colors">STFM & 장비 무상지원</a>
+          <a href="#calculator" class="py-3 px-3 rounded-xl hover:bg-orange-50 hover:text-orange-600 transition-colors">수수료 계산기</a>
+          <a href="#process" class="py-3 px-3 rounded-xl hover:bg-orange-50 hover:text-orange-600 transition-colors">도입 절차 & FAQ</a>
         </div>
       </div>
+      <div class="pt-6 border-t border-slate-100 flex flex-col gap-3">
+        <a href="tel:02-518-0837" class="w-full text-center py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl flex items-center justify-center gap-2 transition-colors">
+          <i class="fa-solid fa-phone text-orange-600"></i> 02-518-0837 전화 문의
+        </a>
+        <a href="#inquiry" class="w-full text-center py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-lg shadow-orange-600/30 transition-all">
+          가맹 상담 신청하기
+        </a>
+      </div>
     </div>
-  </header>
+  </div>
 
   <main>
     <!-- HERO SECTION -->

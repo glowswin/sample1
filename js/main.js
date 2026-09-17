@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initConsultationForm();
   initFAQ();
   initBackToTop();
+  initPolicyModal();
 });
 
 /* 1. Mobile Menu */
@@ -261,5 +262,82 @@ function initBackToTop() {
 
   bttBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+/* 8. Terms & Privacy Policy Modal */
+function initPolicyModal() {
+  const modal = document.getElementById('policy-modal');
+  const closeBtn = document.getElementById('policy-modal-close');
+  const confirmBtn = document.getElementById('policy-modal-confirm');
+  const openBtns = document.querySelectorAll('.open-policy-modal');
+  const tabBtns = document.querySelectorAll('.policy-tab-btn');
+  const tabContents = document.querySelectorAll('.policy-tab-content');
+
+  if (!modal) return;
+
+  function switchTab(targetId) {
+    tabBtns.forEach(btn => {
+      const isTarget = btn.getAttribute('data-target') === targetId;
+      if (isTarget) {
+        btn.classList.add('text-orange-600', 'border-orange-600', 'font-bold');
+        btn.classList.remove('text-slate-500', 'border-transparent', 'font-semibold');
+      } else {
+        btn.classList.remove('text-orange-600', 'border-orange-600', 'font-bold');
+        btn.classList.add('text-slate-500', 'border-transparent', 'font-semibold');
+      }
+    });
+
+    tabContents.forEach(content => {
+      if (content.id === targetId) {
+        content.classList.remove('hidden');
+      } else {
+        content.classList.add('hidden');
+      }
+    });
+  }
+
+  function openModal(tabKey) {
+    const targetId = tabKey === 'terms' ? 'tab-content-terms' : 'tab-content-privacy';
+    switchTab(targetId);
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const tabKey = btn.getAttribute('data-tab') || 'privacy';
+      openModal(tabKey);
+    });
+  });
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      switchTab(targetId);
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (confirmBtn) confirmBtn.addEventListener('click', closeModal);
+
+  // Close on backdrop click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
   });
 }

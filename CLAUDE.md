@@ -5,7 +5,7 @@
 > **Domain**: Global Tax Free (GTF) Overseas PG Service & Clinic Marketing
 
 ## Project Overview
-코스닥 상장법인 글로벌텍스프리(GTF)의 중국 및 동남아 6개국 9대 해외 간편결제 서비스 및 병의원 대상 무상 장비/SW/마케팅 지원 통합 웹사이트입니다.
+코스닥 상장법인 글로벌텍스프리(GTF)의 중국, 일본 및 동남아 6개국 9대 해외 간편결제 서비스 및 병의원 대상 무상 장비/SW/마케팅 지원 통합 웹사이트입니다.
 
 ## Structure
 - `index.html`: 메인 원페이지 랜딩페이지 (SEO 최적화, 시맨틱 태그)
